@@ -19,6 +19,7 @@ class MainApplication : Application() {
         Log.d("PS-Sample", "initPrebidSDK.")
         PrebidMobile.setPrebidServerHost(Host.RUBICON);
         PrebidMobile.setPrebidServerAccountId("22178-Way2news-ANDROID")
+        //PrebidMobile.setLogLevel(LogLevel.DEBUG)
     }
 
     private fun initDFP() {
