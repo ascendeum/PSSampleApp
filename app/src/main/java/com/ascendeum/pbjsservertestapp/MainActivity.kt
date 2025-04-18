@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
     private fun createAd() {
         Log.d("PS-Sample", "createAd")
 
-        // 1. Create BannerAdUnit
+        // 1. Create Prebid Banner AdUnit
         bannerUnit = BannerAdUnit("22178-imp-Way2News-1", 300, 250)
 
         // 2. Configure banner parameters
@@ -40,10 +40,12 @@ class MainActivity : ComponentActivity() {
         myFrameLayout.addView(adView)
 
         // 4. Make a bid request to Prebid Server
-        val adRequest = AdManagerAdRequest.Builder().build()
-        bannerUnit?.fetchDemand(adRequest) {
+        // Fetch Prebid bids and attach to GAM request
+        val adRequestBuilder = AdManagerAdRequest.Builder()
+        bannerUnit?.fetchDemand(adRequestBuilder) { resultCode ->
+            Log.d("PS-Sample", "Fetch demand result: $resultCode")
             // 5. Load GAM Ad
-            adView.loadAd(adRequest)
+            adView.loadAd(adRequestBuilder.build())
         }
 
         // Ad events
