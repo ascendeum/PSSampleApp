@@ -57,8 +57,10 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    implementation("com.google.android.gms:play-services-ads:23.6.0")
+//    implementation(libs.play.services.ads)
+//    implementation(libs.prebid.mobile.sdk)
 
+    implementation("com.google.android.gms:play-services-ads:24.2.0")
     implementation("org.prebid:prebid-mobile-sdk:1.0")
 
 }
