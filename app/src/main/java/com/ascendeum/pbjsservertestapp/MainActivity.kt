@@ -10,12 +10,12 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.admanager.AdManagerAdRequest
 import com.google.android.gms.ads.admanager.AdManagerAdView
 import org.prebid.mobile.BannerAdUnit
-import org.prebid.mobile.PrebidMobile
 
 class MainActivity : ComponentActivity() {
     private lateinit var adContainer: FrameLayout
     private lateinit var adView: AdManagerAdView
     private var bannerUnit: BannerAdUnit? = null
+    private val myTAG:String = "prebid-server"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,31 +24,27 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun setupAd() {
-        Log.d("PS-Sample", "Initializing ad components")
+        Log.d(myTAG, "Initializing ad components")
         // 1. Initialize GAM AdView
         adView = AdManagerAdView(this).apply {
             adUnitId = "/1006418/theChive_Android_Latest_300x250_Instream"
             setAdSizes(AdSize(300, 250))
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
-                    Log.d("PS-Sample", "Ad loaded successfully")
+                    Log.d(myTAG, "onAdLoaded")
                 }
-
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e("PS-Sample", "Ad failed to load: ${error.message}")
+                    Log.e(myTAG, "Ad failed to load: ${error.message}")
                 }
             }
         }
-
         // 2. Add GAM AdView to layout
         adContainer = findViewById(R.id.ad_view_container)
         adContainer.addView(adView)
-
         // 3. Create and configure Prebid BannerAdUnit
-        bannerUnit = BannerAdUnit("22178-imp-Chive_Android_S2S-Latest_300x250_Instream", 300, 250).apply {
-            // Start auto-refresh every 30 seconds
-            setAutoRefreshPeriodMillis(30000)
-        }
+        bannerUnit = BannerAdUnit("22178-imp-Chive_Android_S2S-Latest_300x250_Instream", 300, 250)
+        // Start auto-refresh every 30 seconds
+        bannerUnit?.setAutoRefreshPeriodMillis(30000)
 
         // 4. Fetch demand and load GAM ad
         loadPrebidAd()
@@ -58,7 +54,8 @@ class MainActivity : ComponentActivity() {
         val adRequestBuilder = AdManagerAdRequest.Builder()
 
         bannerUnit?.fetchDemand(adRequestBuilder) { resultCode ->
-            Log.d("PS-Sample", "Prebid fetchDemand result: $resultCode")
+            Log.d(myTAG, "Prebid fetchDemand result: $resultCode")
+            Log.d(myTAG, "Custom KV : ${adRequestBuilder.build().customTargeting}")
             adView.loadAd(adRequestBuilder.build())
         }
     }
@@ -67,14 +64,14 @@ class MainActivity : ComponentActivity() {
         super.onPause()
         // Stop refresh when app goes to background
         bannerUnit?.stopAutoRefersh()
-        Log.d("PS-Sample", "Auto-refresh stopped")
+        Log.d(myTAG, "Auto-refresh stopped")
     }
 
     override fun onResume() {
         super.onResume()
         // Resume refresh when app comes to foreground
         bannerUnit?.setAutoRefreshPeriodMillis(30000)
-        Log.d("PS-Sample", "Auto-refresh restarted")
+        Log.d(myTAG, "Auto-refresh restarted")
     }
 
     override fun onDestroy() {
@@ -82,6 +79,6 @@ class MainActivity : ComponentActivity() {
         bannerUnit?.stopAutoRefersh()
         bannerUnit = null
         adView.destroy()
-        Log.d("PS-Sample", "Banner destroyed and auto-refresh stopped")
+        Log.d(myTAG, "Banner destroyed and auto-refresh stopped")
     }
 }
