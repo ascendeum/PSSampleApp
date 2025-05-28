@@ -61,6 +61,6 @@ dependencies {
 //    implementation(libs.prebid.mobile.sdk)
 
     implementation("com.google.android.gms:play-services-ads:24.2.0")
-    implementation("org.prebid:prebid-mobile-sdk:1.0")
+    implementation("org.prebid:prebid-mobile-sdk:3.0.0")
 
 }
