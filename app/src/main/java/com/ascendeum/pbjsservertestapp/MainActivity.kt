@@ -13,7 +13,10 @@ import com.google.android.gms.ads.admanager.AdManagerAdView
 import org.prebid.mobile.BannerAdUnit
 import org.prebid.mobile.PrebidMobile
 import org.prebid.mobile.TargetingParams
+import org.prebid.mobile.addendum.AdViewUtils
+import org.prebid.mobile.addendum.PbFindSizeError
 import org.prebid.mobile.api.data.InitializationStatus
+import org.prebid.mobile.api.exceptions.AdException
 
 class MainActivity : ComponentActivity() {
     private lateinit var adContainer: FrameLayout
@@ -67,6 +70,18 @@ class MainActivity : ComponentActivity() {
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     Log.d(myTAG, "onAdLoaded")
+                    Log.d(myTAG, "GAM ad loaded, trying to detect creative size")
+
+                    AdViewUtils.findPrebidCreativeSize(adView, object : AdViewUtils.PbFindSizeListener {
+                        override fun success(width: Int, height: Int) {
+                            Log.d("Prebid", "Detected creative size: $adSize")
+                            adView.setAdSize(AdSize(width,height))
+                        }
+
+                        override fun failure(error: PbFindSizeError) {
+                            Log.e(myTAG, "Failed to detect creative size: ${error.description}")
+                        }
+                    })
                     showAd()
                     // clear the ads container and add a new ads
                 }
