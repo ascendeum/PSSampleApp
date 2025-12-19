@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
     private var bannerUnit: BannerAdUnit? = null
     private var refCount: Int = 0
     private var isOnBannerAds:Boolean = true
-    private val myTAG:String = "prebid-server"
+    private val myTAG:String = "[nexx360]"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +36,8 @@ class MainActivity : ComponentActivity() {
 
     private fun initPrebidSDK() {
         Log.d(myTAG, "Init Prebid SDK")
-        PrebidMobile.setPrebidServerAccountId("22178-chive-android")
-        PrebidMobile.initializeSdk(this,"https://prebid-server.rubiconproject.com/openrtb2/auction",){ status ->
+        PrebidMobile.setPrebidServerAccountId("rq4gtkhh") // "22178-chive-android"
+        PrebidMobile.initializeSdk(this,"https://fast.nexx360.io/inapp",){ status ->
             if (status == InitializationStatus.SUCCEEDED) {
                 Log.d(myTAG, "Prebid SDK initialized successfully!")
                 setupAd()
@@ -46,9 +46,9 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        PrebidMobile.setShareGeoLocation(true)
-        TargetingParams.setStoreUrl("https://play.google.com/store/apps/details?id=com.thechive")
-        TargetingParams.setBundleName("com.thechive")
+//        PrebidMobile.setShareGeoLocation(true)
+//        TargetingParams.setStoreUrl("https://play.google.com/store/apps/details?id=sun.way2sms.hyd.com")
+//        TargetingParams.setBundleName("Way2News")
         Log.d(myTAG,"SDK_ACC_ID ${PrebidMobile.getPrebidServerAccountId()}")
         Log.d(myTAG,"SDK_HOST ${PrebidMobile.getPrebidServerHost()}")
     }
@@ -65,7 +65,7 @@ class MainActivity : ComponentActivity() {
         if(!isOnBannerAds) return
         // 1. Initialize GAM AdView
         adView = AdManagerAdView(this).apply {
-            adUnitId = "/1006418/theChive_Android_Latest_300x250_Instream"
+            adUnitId = "/1022441/TJANM3Flip3"
             setAdSizes(AdSize(300, 250))
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
@@ -74,7 +74,7 @@ class MainActivity : ComponentActivity() {
 
                     AdViewUtils.findPrebidCreativeSize(adView, object : AdViewUtils.PbFindSizeListener {
                         override fun success(width: Int, height: Int) {
-                            Log.d("Prebid", "Detected creative size: $adSize")
+                            Log.d(myTAG, "Detected creative size: $adSize")
                             adView.setAdSize(AdSize(width,height))
                         }
 
@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
 
 
         // 3. Create and configure Prebid BannerAdUnit
-        bannerUnit = BannerAdUnit("22178-imp-Chive_Android_S2S-Latest_300x250_Instream", 300, 250)
+        bannerUnit = BannerAdUnit("300x250_Banner", 300, 250)
         // Start auto-refresh every 30 seconds
         bannerUnit?.setAutoRefreshInterval(30)
 
