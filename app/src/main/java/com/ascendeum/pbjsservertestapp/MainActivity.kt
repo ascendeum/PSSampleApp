@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
     private fun initPrebidSDK() {
         Log.d(myTAG, "Init Prebid SDK")
-        PrebidMobile.setPrebidServerAccountId("rq4gtkhh") // "22178-chive-android"
+        PrebidMobile.setPrebidServerAccountId("1225") // "22178-chive-android"
         PrebidMobile.initializeSdk(this,"https://fast.nexx360.io/inapp",){ status ->
             if (status == InitializationStatus.SUCCEEDED) {
                 Log.d(myTAG, "Prebid SDK initialized successfully!")
@@ -93,7 +93,7 @@ class MainActivity : ComponentActivity() {
 
 
         // 3. Create and configure Prebid BannerAdUnit
-        bannerUnit = BannerAdUnit("300x250_Banner", 300, 250)
+        bannerUnit = BannerAdUnit("rq4gtkhh", 300, 250)
         // Start auto-refresh every 30 seconds
         bannerUnit?.setAutoRefreshInterval(30)
 
