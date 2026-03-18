@@ -49,6 +49,28 @@ class MainActivity : ComponentActivity() {
 //        PrebidMobile.setShareGeoLocation(true)
 //        TargetingParams.setStoreUrl("https://play.google.com/store/apps/details?id=sun.way2sms.hyd.com")
 //        TargetingParams.setBundleName("Way2News")
+
+        // Prebid SDK allows the customization of the OpenRTB request on the global level using function setGlobalOrtbConfig()
+        // The parameter passed to TargetingParams.setGlobalOrtbConfig() will be merged into all SDK’s bid requests on the global level.
+        // the below example will add the $.ext.myext.test parameter and change the displaymanager and displaymanagerver parameters in each request.
+        // attention that there are certain protected fields such as regs, device, geo, ext.gdpr,
+        // ext.us_privacy, and ext.consent which cannot be changed using the setGlobalOrtbConfig() method.
+
+        TargetingParams.setGlobalOrtbConfig(
+            "{" +
+                    " \"displaymanager\": \"Google\"," +
+                    " \"displaymanagerver\": \"" + MobileAds.getVersion() + "\"," +
+                    " \"ext\": {" +
+                    "   \"myext\": {" +
+                    "    \"test\": 1" +
+                    "   }" +
+                    " }" +
+                    "}"
+        )
+        // To invalidate the global config, just set the empty string:
+        // TargetingParams.setGlobalOrtbConfig("")
+
+
         Log.d(myTAG,"SDK_ACC_ID ${PrebidMobile.getPrebidServerAccountId()}")
         Log.d(myTAG,"SDK_HOST ${PrebidMobile.getPrebidServerHost()}")
     }
@@ -96,6 +118,20 @@ class MainActivity : ComponentActivity() {
         bannerUnit = BannerAdUnit("rq4gtkhh", 300, 250)
         // Start auto-refresh every 30 seconds
         bannerUnit?.setAutoRefreshInterval(30)
+
+        // Prebid SDK allows the customization of the OpenRTB request on the impression level using the setImpORTBConfig()
+        // The parameter passed to setImpOrtbConfig() will be merged into the respective imp object for this Ad Unit.
+        // the below example will add the $.imp[0].bidfloor and $.imp[0].banner.battr parameters to the bid request.
+
+        bannerUnit?.impOrtbConfig = "{" +
+                "  \"bidfloor\": 0.01," +
+                "  \"banner\": {" +
+                "    \"battr\": [1,2,3,4]" +
+                "  }" +
+                "}";
+
+        // To empty out a previously provided impression config, just set it to the empty string:
+        // bannerUnit?.setImpOrtbConfig("")
 
         // 4. Fetch demand and load GAM ad
         loadPrebidAd()
