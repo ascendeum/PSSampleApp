@@ -85,21 +85,23 @@ class MainActivity : ComponentActivity() {
     private fun setupAd() {
         Log.d(myTAG, "Initializing ad components")
         if(!isOnBannerAds) return
+        if (bannerUnit != null) return
         // 1. Initialize GAM AdView
         adView = AdManagerAdView(this).apply {
-            adUnitId = "/1022441/TJANM3Flip3"
-            setAdSizes(AdSize(300, 250))
+            adUnitId = "/22404395434/stocktwitsandroidapp/symbol"
+            setAdSizes(
+                AdSize(300, 250),
+                AdSize(320, 50)
+            )
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     Log.d(myTAG, "onAdLoaded")
                     Log.d(myTAG, "GAM ad loaded, trying to detect creative size")
-
                     AdViewUtils.findPrebidCreativeSize(adView, object : AdViewUtils.PbFindSizeListener {
                         override fun success(width: Int, height: Int) {
                             Log.d(myTAG, "Detected creative size: $adSize")
                             adView.setAdSize(AdSize(width,height))
                         }
-
                         override fun failure(error: PbFindSizeError) {
                             Log.e(myTAG, "Failed to detect creative size: ${error.description}")
                         }
@@ -115,14 +117,13 @@ class MainActivity : ComponentActivity() {
 
 
         // 3. Create and configure Prebid BannerAdUnit
-        bannerUnit = BannerAdUnit("rq4gtkhh", 300, 250)
+        // BannerAdUnit in Prebid does NOT support multiple sizes in a single ad unit like GAM does.
+        bannerUnit = BannerAdUnit("c74jxrrz", 320, 50)
         // Start auto-refresh every 30 seconds
         bannerUnit?.setAutoRefreshInterval(30)
-
         // Prebid SDK allows the customization of the OpenRTB request on the impression level using the setImpORTBConfig()
         // The parameter passed to setImpOrtbConfig() will be merged into the respective imp object for this Ad Unit.
         // the below example will add the $.imp[0].bidfloor and $.imp[0].banner.battr parameters to the bid request.
-
         bannerUnit?.impOrtbConfig = "{" +
                 "  \"bidfloor\": 0.01," +
                 "  \"banner\": {" +
@@ -132,7 +133,6 @@ class MainActivity : ComponentActivity() {
 
         // To empty out a previously provided impression config, just set it to the empty string:
         // bannerUnit?.setImpOrtbConfig("")
-
         // 4. Fetch demand and load GAM ad
         loadPrebidAd()
     }
@@ -169,13 +169,12 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         Log.d(myTAG, "onResume")
         super.onResume()
-        if (!isOnBannerAds){
-            // Resume refresh when app comes to foreground
-//            bannerUnit?.setAutoRefreshInterval(30)
-//            Log.d(myTAG, "Auto-refresh restarted")
-            isOnBannerAds = true
-            Log.d(myTAG, "set up add again")
-            setupAd()
+        isOnBannerAds = true
+        if (bannerUnit == null) {
+            //setupAd()
+        } else {
+            // If it already exists, just make sure it's refreshing
+            bannerUnit?.resumeAutoRefresh()
         }
     }
 
