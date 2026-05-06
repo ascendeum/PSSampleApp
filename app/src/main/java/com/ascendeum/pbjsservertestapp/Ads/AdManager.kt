@@ -65,7 +65,9 @@ class AdManager private constructor() {
                         adView.setAdSize(AdSize(width, height))
                     }
                     override fun failure(error: PbFindSizeError) {
-                        Log.d(myTAG, "Resize failure: ${error.description}")
+                        // Error 240 is common. It just means a standard GAM ad loaded, not a Prebid one.
+                        // No action is needed here because GAM handles the standard sizes automatically.
+                        Log.d(myTAG, "Standard GAM ad detected (No resize needed).")
                     }
                 })
                 onAdLoaded(adView)
