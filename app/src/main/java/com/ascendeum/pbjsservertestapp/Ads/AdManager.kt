@@ -3,7 +3,6 @@ package com.ascendeum.pbjsservertestapp.Ads
 import android.content.Context
 import android.util.Log
 import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.admanager.AdManagerAdRequest
 import com.google.android.gms.ads.admanager.AdManagerAdView
@@ -56,13 +55,12 @@ class AdManager private constructor() {
 
         activeAdUnits[config.prebidID] = bannerUnit
 
-        // 3. Set up listeners for resizing
+        // 3. Set up listeners for creative size detection
         adView.adListener = object : AdListener() {
             override fun onAdLoaded() {
                 AdViewUtils.findPrebidCreativeSize(adView, object : AdViewUtils.PbFindSizeListener {
                     override fun success(width: Int, height: Int) {
-                        Log.d(myTAG,"success")
-                        adView.setAdSize(AdSize(width, height))
+                        Log.d(myTAG, "Prebid creative size detected: ${width}x${height}")
                     }
                     override fun failure(error: PbFindSizeError) {
                         // Error 240 is common. It just means a standard GAM ad loaded, not a Prebid one.

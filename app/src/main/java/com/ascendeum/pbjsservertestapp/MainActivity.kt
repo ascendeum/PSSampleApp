@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var adContainer: FrameLayout
 
     /**** CHANGE THIS TO LOAD A DIFFERENT UNIT ****/
-    private val currentPlacement = AdPlacement.SYMBOL_INSTREAM_1
+    private val currentPlacement = AdPlacement.SYMBOL_INSTREAM_3
 
     private val myTAG:String = "[ASC-Ads-UI]"
 
