@@ -8,8 +8,14 @@ data class AdUnitConfig(
     val sizes: List<AdSize>
 ) {
     // Returns the primary width/height for Prebid initialization
+    val primarySize: AdSize get() = sizes[0]
     val primaryWidth: Int get() = sizes[0].width
     val primaryHeight: Int get() = sizes[0].height
+    val prebidAdditionalSizes: List<AdSize>
+        get() = sizes
+            .drop(1)
+            .filter { it.width > 0 && it.height > 0 }
+            .distinctBy { "${it.width}x${it.height}" }
 }
 
 enum class AdPlacement {
