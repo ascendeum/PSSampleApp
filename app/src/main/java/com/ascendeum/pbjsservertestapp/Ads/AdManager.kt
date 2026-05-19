@@ -102,6 +102,7 @@ class AdManager private constructor() {
         bannerUnit.fetchDemand(requestBuilder) { resultCode ->
             Log.d(myTAG, "Prebid fetchDemand completed: $resultCode")
             val request = requestBuilder.build()
+            Log.d(myTAG, "custom KV: ${request.customTargeting}")
             adView.loadAd(request)
         }
     }
@@ -116,30 +117,34 @@ class AdManager private constructor() {
         adSize: AdSize
     ) {
         adContainer.post {
-            // Determine structural heights and widths
-            val widthParam = if (adSize.width > 0) adSize.getWidthInPixels(context) else ViewGroup.LayoutParams.MATCH_PARENT
-            val heightParam = if (adSize.height > 0) adSize.getHeightInPixels(context) else ViewGroup.LayoutParams.WRAP_CONTENT
+            val isConcrete = adSize.width > 0 && adSize.height > 0
 
-            // Re-apply explicit measurements onto the master wrapper frame layout only
-            val containerParams = adContainer.layoutParams ?: ViewGroup.LayoutParams(widthParam, heightParam)
-            containerParams.width = widthParam
-            containerParams.height = heightParam
+            // 1. Calculate parent layout parameters
+            val containerWidth = if (isConcrete) adSize.getWidthInPixels(context) else ViewGroup.LayoutParams.MATCH_PARENT
+            val containerHeight = if (isConcrete) adSize.getHeightInPixels(context) else ViewGroup.LayoutParams.WRAP_CONTENT
+
+            val containerParams = adContainer.layoutParams ?: ViewGroup.LayoutParams(containerWidth, containerHeight)
+            containerParams.width = containerWidth
+            containerParams.height = containerHeight
             adContainer.layoutParams = containerParams
 
-            // Keep the underlying ad view filling the parent container cleanly
+            // 2. Calculate child (GAM View) layout parameters
+            // BUG FIX: For FLUID/Native ads, height must be WRAP_CONTENT so it can calculate its contents.
+            val adViewWidth = if (isConcrete) ViewGroup.LayoutParams.MATCH_PARENT else ViewGroup.LayoutParams.MATCH_PARENT
+            val adViewHeight = if (isConcrete) ViewGroup.LayoutParams.MATCH_PARENT else ViewGroup.LayoutParams.WRAP_CONTENT // <-- FIX HERE
+
             val adViewParams = adView.layoutParams as? FrameLayout.LayoutParams ?: FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
+                adViewWidth,
+                adViewHeight,
                 Gravity.CENTER
             )
-            adViewParams.width = ViewGroup.LayoutParams.MATCH_PARENT
-            adViewParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+            adViewParams.width = adViewWidth
+            adViewParams.height = adViewHeight
             adView.layoutParams = adViewParams
 
             adContainer.requestLayout()
         }
     }
-
     fun pauseAd(placement: AdPlacement) {
         val key = placement.config.prebidID
         activeAdUnits[key]?.stopAutoRefresh()

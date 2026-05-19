@@ -13,7 +13,7 @@ import org.prebid.mobile.api.data.InitializationStatus
 
 class MainActivity : ComponentActivity() {
     private lateinit var adContainer: FrameLayout
-    private val currentPlacement = AdPlacement.SYMBOL_INSTREAM_5
+    private val currentPlacement = AdPlacement.SYMBOL_INSTREAM_6
     private val myTAG = "[Nexx360]"
 
     override fun onCreate(savedInstanceState: Bundle?) {
