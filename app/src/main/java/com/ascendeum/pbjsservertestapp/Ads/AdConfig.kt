@@ -11,6 +11,8 @@ data class AdUnitConfig(
     val primarySize: AdSize get() = sizes[0]
     val primaryWidth: Int get() = sizes[0].width
     val primaryHeight: Int get() = sizes[0].height
+    val validSizes: List<AdSize>
+        get() = sizes.distinctBy { "${it.width}x${it.height}" }
     val prebidAdditionalSizes: List<AdSize>
         get() = sizes
             .drop(1)
