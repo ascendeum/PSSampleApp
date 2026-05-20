@@ -168,10 +168,18 @@ class AdManager private constructor() {
         activeAdViews[key]?.pause()
     }
 
+    fun pauseAds(placements: Collection<AdPlacement>) {
+        placements.forEach { pauseAd(it) }
+    }
+
     fun resumeAd(placement: AdPlacement) {
         val key = placement.config.prebidID
         activeAdUnits[key]?.resumeAutoRefresh()
         activeAdViews[key]?.resume()
+    }
+
+    fun resumeAds(placements: Collection<AdPlacement>) {
+        placements.forEach { resumeAd(it) }
     }
 
     fun destroyAd(placement: AdPlacement) {
@@ -182,5 +190,9 @@ class AdManager private constructor() {
         activeAdUnits.remove(key)
         activeAdViews.remove(key)
         activeAdContainers.remove(key)
+    }
+
+    fun destroyAds(placements: Collection<AdPlacement>) {
+        placements.forEach { destroyAd(it) }
     }
 }
