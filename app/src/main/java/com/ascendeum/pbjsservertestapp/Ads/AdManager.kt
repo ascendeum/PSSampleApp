@@ -97,8 +97,25 @@ class AdManager private constructor() {
             }
         }
 
+//        val adRequest = AdManagerAdRequest.Builder()
+//            .addCustomTargeting("Sector", "ElectronicTechnology")
+//            .addCustomTargeting("quotetype", "TelecommunicationsEquipment")
+//            .addCustomTargeting("marketCapitalization", "4374482.189885")
+//            .addCustomTargeting("ticker", "AAPL")
+//            .addCustomTargeting("InstrumentClass", "Stock")
+//            .addCustomTargeting("cap", "mega-cap")
+//            .addCustomTargeting("Userticker", "BPAC,MMYT,ADANIENT.NSE,BTC.X,NVDA,AMZN,AAPL,BTX.X,NIFTY50.NSE")
+//            .build()
+
         // 5. Fetch Demand and Load Ad
         val requestBuilder = AdManagerAdRequest.Builder()
+        requestBuilder.addCustomTargeting("Sector", "ElectronicTechnology")
+        requestBuilder.addCustomTargeting("quotetype", "TelecommunicationsEquipment")
+        requestBuilder.addCustomTargeting("marketCapitalization", "4374482.189885")
+        requestBuilder.addCustomTargeting("ticker", "AAPL")
+        requestBuilder.addCustomTargeting("InstrumentClass", "Stock")
+        requestBuilder.addCustomTargeting("cap", "mega-cap")
+        requestBuilder.addCustomTargeting("Userticker", "BPAC,MMYT,ADANIENT.NSE,BTC.X,NVDA,AMZN,AAPL,BTX.X,NIFTY50.NSE")
         bannerUnit.fetchDemand(requestBuilder) { resultCode ->
             Log.d(myTAG, "Prebid fetchDemand completed: $resultCode")
             val request = requestBuilder.build()
