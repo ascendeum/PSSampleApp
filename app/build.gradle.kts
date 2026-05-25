@@ -9,7 +9,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.ascendeum.pbjsservertestapp"
+        applicationId = "org.stocktwits.android.activity"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

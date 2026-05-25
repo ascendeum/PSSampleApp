@@ -97,25 +97,46 @@ class AdManager private constructor() {
             }
         }
 
-//        val adRequest = AdManagerAdRequest.Builder()
-//            .addCustomTargeting("Sector", "ElectronicTechnology")
-//            .addCustomTargeting("quotetype", "TelecommunicationsEquipment")
-//            .addCustomTargeting("marketCapitalization", "4374482.189885")
-//            .addCustomTargeting("ticker", "AAPL")
-//            .addCustomTargeting("InstrumentClass", "Stock")
-//            .addCustomTargeting("cap", "mega-cap")
-//            .addCustomTargeting("Userticker", "BPAC,MMYT,ADANIENT.NSE,BTC.X,NVDA,AMZN,AAPL,BTX.X,NIFTY50.NSE")
-//            .build()
-
         // 5. Fetch Demand and Load Ad
         val requestBuilder = AdManagerAdRequest.Builder()
-        requestBuilder.addCustomTargeting("Sector", "ElectronicTechnology")
-        requestBuilder.addCustomTargeting("quotetype", "TelecommunicationsEquipment")
-        requestBuilder.addCustomTargeting("marketCapitalization", "4374482.189885")
-        requestBuilder.addCustomTargeting("ticker", "AAPL")
-        requestBuilder.addCustomTargeting("InstrumentClass", "Stock")
-        requestBuilder.addCustomTargeting("cap", "mega-cap")
-        requestBuilder.addCustomTargeting("Userticker", "BPAC,MMYT,ADANIENT.NSE,BTC.X,NVDA,AMZN,AAPL,BTX.X,NIFTY50.NSE")
+//        requestBuilder.addCustomTargeting("Sector", "HealthTechnology")
+//        requestBuilder.addCustomTargeting("quotetype", "MedicalSpecialties")
+//        requestBuilder.addCustomTargeting("marketCapitalization", "4374482.189885")
+//        requestBuilder.addCustomTargeting("ticker", "AXK")
+//        requestBuilder.addCustomTargeting("InstrumentClass", "NYSEMkt")
+//        requestBuilder.addCustomTargeting("cap", "mega-cap")
+//        requestBuilder.addCustomTargeting(
+//            "Userticker",
+//            "BPAC,MMYT,ADANIENT.NSE,BTC.X,NVDA,AMZN,AAPL,BTX.X,NIFTY50.NSE"
+//        )
+//        requestBuilder.addCustomTargeting("s1", "symbol")
+//        requestBuilder.addCustomTargeting("pid", "AXK_symbol_page")
+//        requestBuilder.addCustomTargeting("pos", "feed7")
+//        requestBuilder.addCustomTargeting("mode", "light")
+//        requestBuilder.addCustomTargeting("test", "true")
+//        requestBuilder.addCustomTargeting("vers", "16270")
+//        requestBuilder.addCustomTargeting("excl_cat", "here")
+
+
+//        requestBuilder.addCustomTargeting("Sector", "ElectronicTechnology")
+//        requestBuilder.addCustomTargeting("quotetype", "TelecommunicationsEquipment")
+//        requestBuilder.addCustomTargeting("marketCapitalization", "4374482.189885")
+//        requestBuilder.addCustomTargeting("ticker", "AAPL")
+//        requestBuilder.addCustomTargeting("InstrumentClass", "Stock")
+        // requestBuilder.addCustomTargeting("cap", "mega-cap")
+        // requestBuilder.addCustomTargeting(
+        //     "Userticker",
+        //     "BPAC,MMYT,ADANIENT.NSE,BTC.X,NVDA,AMZN,AAPL,BTX.X,NIFTY50.NSE"
+        // )
+        // requestBuilder.addCustomTargeting("s1", "symbol")
+//        requestBuilder.addCustomTargeting("pid", "AAPL_symbol_page")
+        // requestBuilder.addCustomTargeting("pos", "feed7")
+        // requestBuilder.addCustomTargeting("mode", "light")
+        // requestBuilder.addCustomTargeting("test", "true")
+        // requestBuilder.addCustomTargeting("vers", "16270")
+        // requestBuilder.addCustomTargeting("excl_cat", "here")
+        //adView.loadAd(requestBuilder.build())
+
         bannerUnit.fetchDemand(requestBuilder) { resultCode ->
             Log.d(myTAG, "Prebid fetchDemand completed: $resultCode")
             val request = requestBuilder.build()
