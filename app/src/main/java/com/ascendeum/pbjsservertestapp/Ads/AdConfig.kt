@@ -23,6 +23,8 @@ data class AdUnitConfig(
 enum class AdPlacement {
     SYMBOL_INSTREAM_1, SYMBOL_INSTREAM_2, SYMBOL_INSTREAM_3,
     SYMBOL_INSTREAM_4, SYMBOL_INSTREAM_5, SYMBOL_INSTREAM_6,
+
+    SYMBOL_INSTREAM_FOR_YOU, SYMBOL_INSTREAM_FOR_YOU_2,
     SYMBOL, BANNER_HOME, BANNER_SYMBOL;
 
     val config: AdUnitConfig
@@ -33,6 +35,8 @@ enum class AdPlacement {
             SYMBOL_INSTREAM_4 -> AdUnitConfig("/22404395434/stocktwitsandroidapp/Symbol_InStream_Native_4", "ziuvyedi", listOf(AdSize.MEDIUM_RECTANGLE, AdSize.BANNER, AdSize.FLUID))
             SYMBOL_INSTREAM_5 -> AdUnitConfig("/22404395434/stocktwitsandroidapp/Symbol_InStream_Native_5", "0ot0h9cn", listOf(AdSize.MEDIUM_RECTANGLE, AdSize.BANNER, AdSize.FLUID))
             SYMBOL_INSTREAM_6 -> AdUnitConfig("/22404395434/stocktwitsandroidapp/Symbol_InStream_Native_6", "wtw10il9", listOf(AdSize.MEDIUM_RECTANGLE, AdSize.BANNER, AdSize.FLUID))
+            SYMBOL_INSTREAM_FOR_YOU -> AdUnitConfig("/22404395434/stocktwitsandroidapp/Symbol_InStream_Native_ForYou", "hvz2ukte", listOf(AdSize(580, 300), AdSize.FLUID))
+            SYMBOL_INSTREAM_FOR_YOU_2 -> AdUnitConfig("/22404395434/stocktwitsandroidapp/Symbol_InStream_Native_2_ForYou", "iz4d2owm", listOf(AdSize.MEDIUM_RECTANGLE, AdSize.FLUID))
             SYMBOL -> AdUnitConfig("/22404395434/stocktwitsandroidapp/symbol", "c74jxrrz", listOf(AdSize.MEDIUM_RECTANGLE, AdSize.BANNER, AdSize.FLUID))
             BANNER_HOME -> AdUnitConfig("/22404395434/stocktwitsandroidapp/HomePage_SmallBanner", "q0yz226t", listOf(AdSize.BANNER, AdSize.FLUID))
             BANNER_SYMBOL -> AdUnitConfig("/22404395434/stocktwitsandroidapp/SymbolPage_SmallBanner", "wwpjhyld", listOf(AdSize.BANNER, AdSize.FLUID))

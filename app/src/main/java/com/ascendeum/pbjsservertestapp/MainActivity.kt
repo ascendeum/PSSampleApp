@@ -24,7 +24,9 @@ class MainActivity : ComponentActivity() {
         AdPlacement.SYMBOL_INSTREAM_3,
         AdPlacement.SYMBOL_INSTREAM_4,
         AdPlacement.SYMBOL_INSTREAM_5,
-        AdPlacement.SYMBOL_INSTREAM_6
+        AdPlacement.SYMBOL_INSTREAM_6,
+        AdPlacement.SYMBOL_INSTREAM_FOR_YOU,
+        AdPlacement.SYMBOL_INSTREAM_FOR_YOU_2
     )
     private val myTAG = "[Nexx360]"
 
